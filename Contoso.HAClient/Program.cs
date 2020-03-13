@@ -10,15 +10,17 @@ namespace Contoso.HAClient
         static void Main(string[] args)
         {
             Console.WriteLine("Enter number of HTTP Client:");
-            var input = Console.ReadLine();
             var cancellationTokenSource = new CancellationTokenSource();
-            Task[] tasks = null;
+            int input;
 
-            if (int.TryParse(input, out int num))
+            while (!int.TryParse(Console.ReadLine(), out input))
             {
-
-                tasks = CreateHttpClient(num, cancellationTokenSource.Token);
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Please enter a valid number...");
+                Console.ForegroundColor = ConsoleColor.White;
             }
+            Task[] tasks = CreateHttpClient(input, cancellationTokenSource.Token);
             if (tasks != null)
             {
                 Console.WriteLine("Press any key to exit....");
