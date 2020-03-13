@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -47,17 +48,23 @@ namespace Contoso.HAClient
 
         private static async Task SimulateClient(int clientId, CancellationToken cancellationToken)
         {
-            var client = new HttpClient();
-            Console.WriteLine($"start SimulateClient {clientId}");
-
-            var random = new Random();
-            do
+            try
             {
-                var response = await client.GetAsync($"http://localhost:8080/?clientId= {clientId}");
-                Console.WriteLine($"clientId: {clientId} statusCode: {response.StatusCode} {DateTime.Now}");
-                await Task.Delay(random.Next(50, 1000));
+                var client = new HttpClient();
+                Console.WriteLine($"start SimulateClient {clientId}");
+                var random = new Random();
+                do
+                {
+                    var response = await client.GetAsync($"http://localhost:8080/?clientId= {clientId}");
+                    Console.WriteLine($"clientId: {clientId} statusCode: {response.StatusCode} {DateTime.Now}");
+                    await Task.Delay(random.Next(50, 1000));
+                }
+                while (!cancellationToken.IsCancellationRequested);
             }
-            while (!cancellationToken.IsCancellationRequested);
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
     }
 }
