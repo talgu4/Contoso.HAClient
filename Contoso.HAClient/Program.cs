@@ -21,7 +21,7 @@ namespace Contoso.HAClient
                 Console.WriteLine("Please enter a valid number...");
                 Console.ForegroundColor = ConsoleColor.White;
             }
-            Task[] tasks = CreateHttpClient(input, cancellationTokenSource.Token);
+            Task[] tasks = CreateHttpClients(input, cancellationTokenSource.Token);
             if (tasks != null)
             {
                 Console.WriteLine("Press any key to exit....");
@@ -35,7 +35,7 @@ namespace Contoso.HAClient
             }
         }
 
-        private static Task[] CreateHttpClient(int numOfClients, CancellationToken cancellationToken)
+        private static Task[] CreateHttpClients(int numOfClients, CancellationToken cancellationToken)
         {
             var tasks = new Task[numOfClients];
             var clientIdRandom = new Random();
